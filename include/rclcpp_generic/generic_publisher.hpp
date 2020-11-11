@@ -46,7 +46,7 @@ public:
    * The returned pointer will never be empty, but this function can throw various exceptions, for
    * instance when the message's package can not be found on the AMENT_PREFIX_PATH.
    *
-   * \param topics_interface NodeTopicsInterface pointer used in parts of the setup.
+   * \param topics_interface NodeTopicsInterface pointer used in parts of the setup
    * \param topic_name Topic name
    * \param topic_type Topic type
    * \param qos QoS settings
@@ -63,13 +63,18 @@ public:
 
   void publish(std::shared_ptr<rmw_serialized_message_t> message);
 
-  // template <typename T>
-  // void publish(std::shared_ptr<T> message) {
-  //   publish_impl(rosidl_typesupport_cpp::get_message_type_support_handle<T>(), message.get());
-  // }
-
 private:
-  /// This constructor does not add the publisher to the NodeTopicsInterface
+  /**
+   * Constructor. In order to properly publish to a topic, this publisher needs to be added to
+   * the node_topic_interface of the node passed into this constructor.
+   *
+   * \param node_base Pointer to parent node's NodeBaseInterface
+   * \param ts_lib Type support library, needs to correspond to topic_type
+   * \param topic_name Topic name
+   * \param topic_type Topic type
+   * \param qos QoS settings
+   * \param callback Callback for new messages of serialized form
+   */
   GenericPublisher(
     rclcpp::node_interfaces::NodeBaseInterface * node_base,
     std::shared_ptr<rcpputils::SharedLibrary> ts_lib,
@@ -79,8 +84,6 @@ private:
 
   // The type support library should stay loaded, so it is stored in the GenericPublisher
   std::shared_ptr<rcpputils::SharedLibrary> ts_lib_;
-
-  // void publish_impl(const void * message, const rosidl_message_type_support_t *)
 };
 
 }  // namespace rclcpp_generic

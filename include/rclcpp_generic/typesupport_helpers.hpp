@@ -40,7 +40,7 @@ get_typesupport_handle(
   std::shared_ptr<rcpputils::SharedLibrary> library);
 
 RCLCPP_GENERIC_PUBLIC
-const std::tuple<std::string, std::string, std::string>
+std::tuple<std::string, std::string, std::string>
 extract_type_identifier(const std::string & full_type);
 
 }  // namespace rclcpp_generic

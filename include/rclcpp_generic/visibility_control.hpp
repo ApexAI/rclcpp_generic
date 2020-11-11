@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/* This header must be included by all rclcpp headers which declare symbols
- * which are defined in the rclcpp library. When not building the rclcpp
- * library, i.e. when using the headers in other package's code, the contents
- * of this header change the visibility of certain symbols which the rclcpp
- * library cannot have, but the consuming code must have inorder to link.
- */
+// This header must be included by all rclcpp_generic headers which declare
+// symbols which are defined in the rclcpp_generic library. When not building
+// the rclcpp_generic library, i.e. when using the headers in other package's
+// code, the contents of this header change the visibility of certain symbols
+// which the rclcpp_generic library cannot have, but the consuming code must
+// have in order to link.
 
 #ifndef RCLCPP_GENERIC__VISIBILITY_CONTROL_HPP_
 #define RCLCPP_GENERIC__VISIBILITY_CONTROL_HPP_

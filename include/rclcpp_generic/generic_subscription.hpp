@@ -63,25 +63,6 @@ public:
     std::function<void(std::shared_ptr<rclcpp::SerializedMessage>)> callback,
     rclcpp::CallbackGroup::SharedPtr group = nullptr);
 
-  /**
-   * Constructor. In order to properly subscribe to a topic, this subscription needs to be added to
-   * the node_topic_interface of the node passed into this constructor.
-   *
-   * \param node_base NodeBaseInterface pointer used in parts of the setup.
-   * \param ts_lib Type support library for this type
-   * \param topic_name Topic name
-   * \param topic_type Topic type
-   * \param qos QoS settings
-   * \param callback Callback for new messages of serialized form
-   */
-  GenericSubscription(
-    rclcpp::node_interfaces::NodeBaseInterface * node_base,
-    const std::shared_ptr<rcpputils::SharedLibrary> ts_lib,
-    const std::string & topic_name,
-    const std::string & topic_type,
-    const rclcpp::QoS & qos,
-    std::function<void(std::shared_ptr<rclcpp::SerializedMessage>)> callback);
-
   // Same as create_serialized_message() as the subscription is to serialized_messages only
   std::shared_ptr<void> create_message() override;
 
@@ -98,14 +79,29 @@ public:
 
   void return_serialized_message(std::shared_ptr<rclcpp::SerializedMessage> & message) override;
 
-  // Provide a const reference to the QoS Profile used to create this subscription.
-  const rclcpp::QoS & qos_profile() const;
-
 private:
   RCLCPP_DISABLE_COPY(GenericSubscription)
 
+  /**
+   * Constructor. In order to properly subscribe to a topic, this subscription needs to be added to
+   * the node_topic_interface of the node passed into this constructor.
+   *
+   * \param node_base Pointer to parent node's NodeBaseInterface
+   * \param ts_lib Type support library, needs to correspond to topic_type
+   * \param topic_name Topic name
+   * \param topic_type Topic type
+   * \param qos QoS settings
+   * \param callback Callback for new messages of serialized form
+   */
+  GenericSubscription(
+    rclcpp::node_interfaces::NodeBaseInterface * node_base,
+    const std::shared_ptr<rcpputils::SharedLibrary> ts_lib,
+    const std::string & topic_name,
+    const std::string & topic_type,
+    const rclcpp::QoS & qos,
+    std::function<void(std::shared_ptr<rclcpp::SerializedMessage>)> callback);
+
   std::function<void(std::shared_ptr<rclcpp::SerializedMessage>)> callback_;
-  const rclcpp::QoS qos_;
   // The type support library should stay loaded, so it is stored in the GenericSubscription
   std::shared_ptr<rcpputils::SharedLibrary> ts_lib_;
 };
